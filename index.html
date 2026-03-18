@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="GitHub Actionsワークフローのジョブ依存関係をSVGグラフとして可視化するツール"
+    />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <title>actviz - GitHub Actions ワークフロー可視化</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+            <circle cx="7" cy="16" r="3.4" />
+            <circle cx="25" cy="8" r="3.4" />
+            <circle cx="25" cy="24" r="3.4" />
+            <path d="M10.2 14.6 L21.6 9.4 M10.2 17.4 L21.6 22.6" />
+          </g>
+        </svg>
+        <h1>actviz</h1>
+        <p class="tagline">GitHub Actions のジョブ依存関係を図にする</p>
+      </div>
+      <div class="topbar-actions">
+        <label class="critical-label">
+          <input type="checkbox" id="critical-toggle" />
+          クリティカルパスを強調
+        </label>
+        <button id="load-sample" class="ghost">サンプルを読み込む</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="editor-pane" aria-label="ワークフローの入力">
+        <div class="file-bar">
+          <div id="file-tabs" class="file-tabs" role="tablist" aria-label="ファイル一覧"></div>
+          <div class="file-actions">
+            <button id="add-file" class="ghost" title="空のワークフローを追加">追加</button>
+            <button id="open-files" class="ghost" title="手元のYAMLを開く">開く</button>
+            <button id="remove-file" class="ghost" title="このファイルを削除">削除</button>
+            <input type="file" id="file-input" accept=".yml,.yaml" multiple hidden />
+          </div>
+        </div>
+        <textarea
+          id="source"
+          spellcheck="false"
+          aria-label="ワークフローYAML"
+          placeholder="ここに .github/workflows のYAMLを貼り付ける"
+        ></textarea>
+        <p class="hint">入力はブラウザのlocalStorageにだけ保存され、外部には送信されない。</p>
+      </section>
+
+      <section
+        class="graph-pane"
+        id="graph-pane"
+        aria-label="依存グラフ"
+        aria-live="polite"
+      ></section>
+    </main>
+
+    <aside id="details" class="details" hidden aria-label="ジョブの詳細"></aside>
+
+    <footer class="foot">
+      <p>
+        ジョブをクリックすると詳細、ホバーで依存の流れを強調表示。グラフは「SVGを書き出す」で
+        単体のSVGファイルとして保存できる。
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
