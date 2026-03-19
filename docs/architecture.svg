@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" role="img" aria-label="actviz の処理の流れ">
+  <title>actviz の処理の流れ</title>
+  <style>
+    svg {
+      --panel: #ffffff;
+      --panel-accent: #e4ebf4;
+      --ink: #2c2b28;
+      --muted: #6e6b63;
+      --line: #b5b0a6;
+      --accent: #3c6394;
+      font-family: "Hiragino Sans", "Noto Sans CJK JP", sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      svg {
+        --panel: #1f222a;
+        --panel-accent: #2b3547;
+        --ink: #d6d8de;
+        --muted: #8b8f99;
+        --line: #4a4f5a;
+        --accent: #93b5e4;
+      }
+    }
+    .box { fill: var(--panel); stroke: var(--line); stroke-width: 1.2; }
+    .box-out { fill: var(--panel-accent); stroke: var(--accent); stroke-width: 1.4; }
+    .name { fill: var(--ink); font-size: 15px; font-weight: 600; text-anchor: middle; }
+    .mod { fill: var(--accent); font-size: 12px; text-anchor: middle;
+           font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+    .cap { fill: var(--muted); font-size: 11px; text-anchor: middle; }
+    .flow { stroke: var(--line); stroke-width: 1.4; fill: none; marker-end: url(#arrow); }
+    .head { fill: var(--muted); font-size: 12px; letter-spacing: 0.08em; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--line)"/>
+    </marker>
+  </defs>
+
+  <text class="head" x="24" y="36">ワークフローYAMLからSVGグラフまで</text>
+
+  <rect class="box" x="24" y="92" width="156" height="72" rx="10"/>
+  <text class="name" x="102" y="118">YAML入力</text>
+  <text class="mod" x="102" y="136">store.ts</text>
+  <text class="cap" x="102" y="152">編集・複数ファイル・保存</text>
+
+  <rect class="box" x="220" y="92" width="156" height="72" rx="10"/>
+  <text class="name" x="298" y="118">パーサ</text>
+  <text class="mod" x="298" y="136">parse.ts</text>
+  <text class="cap" x="298" y="152">jobs / needs / matrix を抽出</text>
+
+  <rect class="box" x="416" y="92" width="156" height="72" rx="10"/>
+  <text class="name" x="494" y="118">グラフ解析</text>
+  <text class="mod" x="494" y="136">graph.ts</text>
+  <text class="cap" x="494" y="152">循環・経路・連鎖の検出</text>
+
+  <rect class="box" x="612" y="92" width="156" height="72" rx="10"/>
+  <text class="name" x="690" y="118">レイアウト</text>
+  <text class="mod" x="690" y="136">layout.ts</text>
+  <text class="cap" x="690" y="152">レイヤード配置と重心整列</text>
+
+  <rect class="box-out" x="808" y="92" width="128" height="72" rx="10"/>
+  <text class="name" x="872" y="118">SVG描画</text>
+  <text class="mod" x="872" y="136">render.ts</text>
+  <text class="cap" x="872" y="152">書き出しにも対応</text>
+
+  <line class="flow" x1="180" y1="128" x2="212" y2="128"/>
+  <line class="flow" x1="376" y1="128" x2="408" y2="128"/>
+  <line class="flow" x1="572" y1="128" x2="604" y2="128"/>
+  <line class="flow" x1="768" y1="128" x2="800" y2="128"/>
+
+  <rect class="box" x="220" y="226" width="156" height="60" rx="10"/>
+  <text class="name" x="298" y="252">UI制御</text>
+  <text class="mod" x="298" y="270">main.ts</text>
+
+  <rect class="box" x="416" y="226" width="200" height="60" rx="10"/>
+  <text class="name" x="516" y="252">詳細パネル</text>
+  <text class="mod" x="516" y="270">details.ts</text>
+
+  <path class="flow" d="M298 226 V 172"/>
+  <text class="cap" x="310" y="200" style="text-anchor:start">入力と描画を束ね、選択・強調を制御</text>
+  <path class="flow" d="M516 226 V 198 H 494 V 172"/>
+</svg>
