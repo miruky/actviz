@@ -6,6 +6,7 @@ import {
   findCycle,
   findNeedsIssues,
   workflowRunEdges,
+  workflowStats,
 } from './graph';
 import { parseWorkflow } from './parse';
 
@@ -87,6 +88,33 @@ describe('criticalPath', () => {
       'w.yml',
     );
     expect(criticalPath(wf)).toEqual([]);
+  });
+});
+
+describe('workflowStats', () => {
+  it('ダイヤ型の段数と並列度を数える', () => {
+    const stats = workflowStats(DIAMOND);
+    expect(stats.jobCount).toBe(4);
+    expect(stats.stageCount).toBe(3); // lint → (test|build) → package
+    expect(stats.maxParallel).toBe(2); // testとbuildが同じ段
+  });
+
+  it('依存のない並列ジョブは1段で並列度ぶん', () => {
+    const wf = parseWorkflow('jobs:\n  a:\n    runs-on: x\n  b:\n    runs-on: x', 'w.yml');
+    const stats = workflowStats(wf);
+    expect(stats.jobCount).toBe(2);
+    expect(stats.stageCount).toBe(1);
+    expect(stats.maxParallel).toBe(2);
+  });
+
+  it('循環があっても止まらず数える', () => {
+    const wf = parseWorkflow(
+      'jobs:\n  a:\n    runs-on: x\n    needs: b\n  b:\n    runs-on: x\n    needs: a',
+      'w.yml',
+    );
+    const stats = workflowStats(wf);
+    expect(stats.jobCount).toBe(2);
+    expect(stats.maxParallel).toBeGreaterThanOrEqual(1);
   });
 });
 
