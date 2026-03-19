@@ -1,0 +1,24 @@
+<svg class="actviz-graph" viewBox="0 0 1032 184" width="1032" role="img" aria-label="CI のジョブ依存グラフ" xmlns="http://www.w3.org/2000/svg"><title>CI のジョブ依存グラフ</title><style>
+.actviz-graph { --panel:#ffffff; --ink:#2c2b28; --muted:#6e6b63; --line:#b5b0a6;
+  --accent:#3c6394; --accent-soft:#e4ebf4; font-family:system-ui,sans-serif; }
+@media (prefers-color-scheme: dark) {
+  .actviz-graph { --panel:#22252c; --ink:#d6d8de; --muted:#8b8f99; --line:#4a4f5a;
+    --accent:#93b5e4; --accent-soft:#2b3547; }
+}
+.actviz-graph .node rect.body { fill:var(--panel); stroke:var(--line); stroke-width:1.2; }
+.actviz-graph .node text.title { fill:var(--ink); font-size:13px; font-weight:600; }
+.actviz-graph .node text.caption { fill:var(--muted); font-size:11px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+.actviz-graph .edge { fill:none; stroke:var(--line); stroke-width:1.4; }
+.actviz-graph .node.crit rect.body { stroke:var(--accent); stroke-width:1.8; fill:var(--accent-soft); }
+.actviz-graph .edge.crit { stroke:var(--accent); stroke-width:2; }
+.actviz-graph .badge rect { fill:var(--accent-soft); stroke:var(--accent); stroke-width:1; }
+.actviz-graph .badge text { fill:var(--accent); font-size:10px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+.actviz-graph .node { cursor:pointer; }
+.actviz-graph .node.dim, .actviz-graph .edge.dim { opacity:0.25; }
+.actviz-graph .node, .actviz-graph .edge { transition:opacity 160ms ease; }
+@media (prefers-reduced-motion: reduce) {
+  .actviz-graph .node, .actviz-graph .edge { transition:none; }
+}
+</style><defs><marker id="arr-0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="var(--line)"/></marker><marker id="arr-0c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/></marker></defs><path class="edge crit" data-from="lint" data-to="test" marker-end="url(#arr-0c)" d="M216 52 C252 52, 252 52, 281 52"/><path class="edge" data-from="lint" data-to="build" marker-end="url(#arr-0)" d="M216 52 C252 52, 252 132, 281 132"/><path class="edge" data-from="typecheck" data-to="build" marker-end="url(#arr-0)" d="M216 132 C252 132, 252 132, 281 132"/><path class="edge crit" data-from="test" data-to="package" marker-end="url(#arr-0c)" d="M480 52 C516 52, 516 92, 545 92"/><path class="edge" data-from="build" data-to="package" marker-end="url(#arr-0)" d="M480 132 C516 132, 516 92, 545 92"/><path class="edge crit" data-from="package" data-to="notify-failure" marker-end="url(#arr-0c)" d="M744 92 C780 92, 780 92, 809 92"/><g class="node crit" data-job="lint" transform="translate(24 24)" style="--i:0" tabindex="0" role="button" aria-label="ジョブ lint の詳細"><rect class="body" width="192" height="56" rx="10"/><text class="title" x="14" y="24">lint</text><text class="caption" x="14" y="42">ubuntu-latest</text></g><g class="node" data-job="typecheck" transform="translate(24 104)" style="--i:1" tabindex="0" role="button" aria-label="ジョブ typecheck の詳細"><rect class="body" width="192" height="56" rx="10"/><text class="title" x="14" y="24">typecheck</text><text class="caption" x="14" y="42">ubuntu-latest</text></g><g class="node crit" data-job="test" transform="translate(288 24)" style="--i:2" tabindex="0" role="button" aria-label="ジョブ test の詳細"><rect class="body" width="192" height="56" rx="10"/><text class="title" x="14" y="24">test</text><text class="caption" x="14" y="42">${{ matrix.os }}</text><g class="badge" aria-hidden="true"><rect x="134" y="-9" width="52" height="18" rx="9"/><text x="160" y="4" text-anchor="middle">matrix 4</text></g></g><g class="node" data-job="build" transform="translate(288 104)" style="--i:3" tabindex="0" role="button" aria-label="ジョブ build の詳細"><rect class="body" width="192" height="56" rx="10"/><text class="title" x="14" y="24">build</text><text class="caption" x="14" y="42">ubuntu-latest</text></g><g class="node crit" data-job="package" transform="translate(552 64)" style="--i:4" tabindex="0" role="button" aria-label="ジョブ package の詳細"><rect class="body" width="192" height="56" rx="10"/><text class="title" x="14" y="24">package</text><text class="caption" x="14" y="42">ubuntu-latest</text></g><g class="node crit" data-job="notify-failure" transform="translate(816 64)" style="--i:5" tabindex="0" role="button" aria-label="ジョブ notify-failure の詳細"><rect class="body" width="192" height="56" rx="10"/><text class="title" x="14" y="24">notify-failure</text><text class="caption" x="14" y="42">ubuntu-latest</text></g></svg>
