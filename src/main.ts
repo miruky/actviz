@@ -7,6 +7,7 @@ import {
   findCycle,
   findNeedsIssues,
   workflowRunEdges,
+  workflowStats,
 } from './graph';
 import { WorkflowParseError, parseWorkflow } from './parse';
 import { escapeXml, renderWorkflowSvg } from './render';
@@ -88,6 +89,11 @@ function workflowCard(wf: WorkflowModel, index: number): string {
   const cycle = findCycle(wf);
   if (cycle) issues.push(`依存が循環している: ${cycle.join(' -> ')}`);
 
+  const stats = workflowStats(wf);
+  const statChips =
+    `<span class="chip stat">${stats.jobCount} ジョブ</span>` +
+    `<span class="chip stat">${stats.stageCount} 段</span>` +
+    (stats.maxParallel > 1 ? `<span class="chip stat">最大並列 ${stats.maxParallel}</span>` : '');
   const chips = wf.triggers.map((t) => `<span class="chip">${escapeXml(t)}</span>`).join('');
   const workflows = parsedWorkflows();
   const upstream = workflowRunEdges(workflows.filter((w): w is WorkflowModel => Boolean(w)))
@@ -110,7 +116,7 @@ function workflowCard(wf: WorkflowModel, index: number): string {
     `<header class="wf-head">` +
     `<div class="wf-title"><h2>${escapeXml(wf.label)}</h2>` +
     `<span class="file mono">${escapeXml(wf.fileName)}</span></div>` +
-    `<div class="wf-meta">${chips}${chain}` +
+    `<div class="wf-meta">${statChips}${chips}${chain}` +
     `<button class="ghost export" data-export="${index}">SVGを書き出す</button></div>` +
     `</header>${issueList}` +
     `<div class="svg-wrap">${renderWorkflowSvg(wf, index, { critical })}</div>` +
