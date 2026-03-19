@@ -330,6 +330,13 @@ button {
   color: var(--warn);
 }
 
+.chip.stat {
+  border-color: transparent;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
 .issues {
   list-style: none;
   padding: 8px 20px;
