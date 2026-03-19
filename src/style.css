@@ -1,31 +1,36 @@
 :root {
   --bg: #f4f2ec;
-  --panel: #ffffff;
-  --panel-2: #faf8f3;
+  --panel: #fbfaf6;
+  --panel-2: #f1efe8;
   --ink: #2c2b28;
   --muted: #6e6b63;
-  --line: #ddd8cd;
+  --faint: #9a958b;
+  --line: #e0dccf;
+  --line-strong: #cfc9bb;
   --accent: #3c6394;
   --accent-ink: #ffffff;
+  --accent-soft: color-mix(in srgb, var(--accent) 9%, transparent);
   --danger: #b04a50;
   --warn: #9a7126;
-  --radius: 12px;
-  --shadow: 0 1px 2px rgb(28 27 24 / 5%), 0 8px 24px rgb(28 27 24 / 7%);
+  --radius: 10px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #16181d;
-    --panel: #1f222a;
-    --panel-2: #1a1d23;
+    --panel: #1c1f26;
+    --panel-2: #14171c;
     --ink: #d6d8de;
     --muted: #8b8f99;
-    --line: #343945;
+    --faint: #6b7079;
+    --line: #2b3038;
+    --line-strong: #3a4049;
     --accent: #93b5e4;
     --accent-ink: #10131a;
+    --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
     --danger: #e08e94;
     --warn: #d9b36a;
-    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 35%);
   }
 }
 
@@ -127,10 +132,17 @@ button {
 .ghost:hover {
   border-color: var(--accent);
   color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .ghost:active {
   transform: scale(0.97);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* ---- 作業領域 ---- */
@@ -156,7 +168,6 @@ button {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -256,7 +267,6 @@ button {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
   overflow: hidden;
   animation: card-in 360ms ease both;
   animation-delay: calc(var(--d, 0) * 70ms);
@@ -366,8 +376,7 @@ button {
   bottom: 0;
   width: min(380px, 90vw);
   background: var(--panel);
-  border-left: 1px solid var(--line);
-  box-shadow: var(--shadow);
+  border-left: 1px solid var(--line-strong);
   padding: 24px;
   overflow-y: auto;
   animation: slide-in 240ms ease both;
