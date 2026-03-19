@@ -112,6 +112,47 @@ export function criticalPath(wf: WorkflowModel): string[] {
   return best.length > 1 ? best : [];
 }
 
+export interface WorkflowStats {
+  /** ジョブ数 */
+  jobCount: number;
+  /** 直列段数(needsの最長鎖の長さ)。同じ段に並ぶジョブはまとめて1段 */
+  stageCount: number;
+  /** 同じ段に並ぶ最大ジョブ数(並列度の上限) */
+  maxParallel: number;
+}
+
+/**
+ * ジョブ依存から規模の指標を出す。各ジョブの段(needs方向の最長距離)を求め、
+ * 段数と段ごとの幅から直列の深さと並列度を読む。循環があっても止まらない。
+ */
+export function workflowStats(wf: WorkflowModel): WorkflowStats {
+  const byId = new Map(wf.jobs.map((job) => [job.id, job]));
+  const depthCache = new Map<string, number>();
+  const depthOf = (id: string, stack: Set<string>): number => {
+    const cached = depthCache.get(id);
+    if (cached !== undefined) return cached;
+    if (stack.has(id)) return 0;
+    stack.add(id);
+    const deps = (byId.get(id)?.needs ?? []).filter((dep) => byId.has(dep));
+    const depth = deps.length === 0 ? 0 : 1 + Math.max(...deps.map((dep) => depthOf(dep, stack)));
+    stack.delete(id);
+    depthCache.set(id, depth);
+    return depth;
+  };
+  const widthByStage = new Map<number, number>();
+  let maxDepth = 0;
+  for (const job of wf.jobs) {
+    const depth = depthOf(job.id, new Set());
+    maxDepth = Math.max(maxDepth, depth);
+    widthByStage.set(depth, (widthByStage.get(depth) ?? 0) + 1);
+  }
+  return {
+    jobCount: wf.jobs.length,
+    stageCount: wf.jobs.length === 0 ? 0 : maxDepth + 1,
+    maxParallel: widthByStage.size === 0 ? 0 : Math.max(...widthByStage.values()),
+  };
+}
+
 /**
  * workflow_run による連鎖。戻り値は [先行ワークフローの添字, 後続の添字]。
  * 先行はワークフロー名(name)で照合される。
